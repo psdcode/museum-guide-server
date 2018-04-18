@@ -4,8 +4,15 @@
   "description": "Node server used in conjunction with the museum-guide project",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+||||||| merged common ancestors
+    "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+>>>>>>> cors-regular
   },
   "repository": {
     "type": "git",
@@ -16,8 +23,20 @@
   "bugs": {
     "url": "https://github.com/psdcode/museum-guide-server/issues"
   },
+<<<<<<< HEAD
   "homepage": "https://github.com/psdcode/museum-guide-server#readme",
   "dependencies": {
     "cors-anywhere": "^0.4.1"
   }
+||||||| merged common ancestors
+  "homepage": "https://github.com/psdcode/museum-guide-server#readme"
+=======
+  "homepage": "https://github.com/psdcode/museum-guide-server#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "helmet": "^3.12.0",
+    "yelp-fusion": "^2.0.3"
+  }
+>>>>>>> cors-regular
 }
