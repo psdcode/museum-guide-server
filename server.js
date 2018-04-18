@@ -1,5 +1,6 @@
 'use strict';
 
+const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 8080;
 
 const fs = require('fs');
@@ -40,6 +41,6 @@ app.get('/yelp-search', function (req, res, next) {
     });
 });
 
-app.listen(PORT, function () {
-  console.log(`CORS-enabled web server listening on port ${PORT}`);
+app.listen(PORT, HOST, function () {
+  console.log(`CORS-enabled web server listening on port ${HOST}:${PORT}`);
 });
