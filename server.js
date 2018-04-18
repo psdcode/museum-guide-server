@@ -2,6 +2,7 @@
 
 const PORT = process.env.PORT || 8080;
 
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -16,14 +17,21 @@ const app = express();
 
 app.use(cors());
 app.use(helmet());
+
+app.get('/model', function (req, res, next) {
+  // const model = fs.create;
+});
+
 app.get('/yelp-search', function (req, res, next) {
   yelpSearch(req.query.term, req.query.lat, req.query.lng)
     .then(function (result) {
+      // Yelp api search successful
       res.status(200).send(result);
     })
+    // Catch any errors in the yelp api request process
     .catch(function (err) {
       console.log(err);
-      res.status(400).send('failed!');
+      res.status(404).send();
     });
 });
 
@@ -32,5 +40,5 @@ app.get('/yelp-search', function (req, res, next) {
 // });
 
 app.listen(PORT, function () {
-  console.log(`'CORS-enabled web server listening on port ${PORT}`);
+  console.log(`CORS-enabled web server listening on port ${PORT}`);
 });

@@ -28,10 +28,13 @@ const yelpSearch = function (term, latitude, longitude) {
   })
     .then(response => response.jsonBody)
     .then(function (responseJSON) {
+      // Check if search result exists
       if (responseJSON.businesses[0] !== undefined) {
         return yelpHoursLookup(responseJSON.businesses[0]);
+
+      // Otherwise send back empty object
       } else {
-        return undefined; // responseJSON.businesses[0] === undefined
+        return {}; // responseJSON.businesses[0] === undefined
       }
     });
 };
