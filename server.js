@@ -3,6 +3,7 @@
 const PORT = process.env.PORT || 8080;
 
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -10,7 +11,7 @@ const yelpSearch = require('./yelpSearch');
 
 const app = express();
 
-// var corsOptions = {
+// const corsOptions = {
 //   origin: 'https://psdcode.github.io',
 //   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 // }
@@ -18,10 +19,14 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
+// Handle request for model data
 app.get('/model', function (req, res, next) {
-  // const model = fs.create;
+  const modelPath = path.join(__dirname, 'model/model.json');
+  const modelStream = fs.createReadStream(modelPath);
+  modelStream.pipe(res);
 });
 
+// Handle search request to yelp api
 app.get('/yelp-search', function (req, res, next) {
   yelpSearch(req.query.term, req.query.lat, req.query.lng)
     .then(function (result) {
@@ -34,10 +39,6 @@ app.get('/yelp-search', function (req, res, next) {
       res.status(404).send();
     });
 });
-
-// app.get('/baf', function (req, res, next) {
-//   res.status(200).send('RESET');
-// });
 
 app.listen(PORT, function () {
   console.log(`CORS-enabled web server listening on port ${PORT}`);
