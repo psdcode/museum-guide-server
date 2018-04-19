@@ -12,12 +12,13 @@ const yelpSearch = require('./yelpSearch');
 
 const app = express();
 
-const corsOptions = {
-  origin: 'https://psdcode.github.io',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'https://psdcode.github.io',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
+//
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(helmet());
 
 // Handle request for model data
