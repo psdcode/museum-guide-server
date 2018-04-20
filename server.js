@@ -3,8 +3,6 @@
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 8080;
 
-const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -21,11 +19,9 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
-// Handle request for model data
-app.get('/model', function (req, res, next) {
-  const modelPath = path.join(__dirname, 'model/model.json');
-  const modelStream = fs.createReadStream(modelPath);
-  modelStream.pipe(res);
+// Wake Heroku server up into ready state
+app.get('/wakeup', function (req, res, next) {
+  res.status(200).send();
 });
 
 // Handle search request to yelp api
