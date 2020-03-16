@@ -1,42 +1,39 @@
-const yelp = require('yelp-fusion');
+const yelp = require('yelp-fusion')
 
 const yelpApiKey = `n9BZFWy_zC3jyQyNV9u0Tdc6IhfkwyV8b4JBg2NYD9AaQuHaUx6II9\
-ukiEQp2Z03m7Cmycz29Lu2n4Gc5LPu1wDjVVCGyignkEoZn167yyq07sbPEN7gF5GzE20YWnYx`;
-const client = yelp.client(yelpApiKey);
+ukiEQp2Z03m7Cmycz29Lu2n4Gc5LPu1wDjVVCGyignkEoZn167yyq07sbPEN7gF5GzE20YWnYx`
+const client = yelp.client(yelpApiKey)
 
-const yelpHoursLookup = function (yelpData) {
-  return client.business(yelpData.id)
-    .then(response => response.jsonBody)
-    .then(function (responseJSON) {
-      if (responseJSON.hours && responseJSON.hours[0] &&
-        responseJSON.hours[0].hasOwnProperty('is_open_now')) {
-        // 'is_open_now' property is present in response object
-        const yelpDataAndHours = Object.assign(yelpData, {is_open_now: responseJSON.hours[0].is_open_now});
-        return yelpDataAndHours;
-      } else {
-        // no 'hours' info present, so return yelpData unmodified
-        return yelpData;
+const yelpHoursLookup = function(yelpData) {
+  return client
+    .business(yelpData.id)
+    .then(res => res.jsonBody)
+    .then(({ hours }) => {
+      if (hours && hours[0] && hours[0].hasOwnProperty('is_open_now')) {
+        return {
+          ...yelpData,
+          is_open_now: hours[0].is_open_now,
+        }
       }
-    });
-};
+      // no 'hours' info present, so return yelpData unmodified
+      else return yelpData
+    })
+}
 
-const yelpSearch = function (term, latitude, longitude) {
-  return client.search({
-    term,
-    latitude,
-    longitude
-  })
+const yelpSearch = function(term, latitude, longitude) {
+  return client
+    .search({
+      term,
+      latitude,
+      longitude,
+    })
     .then(response => response.jsonBody)
-    .then(function (responseJSON) {
+    .then(({ businesses }) => {
       // Check if search result exists
-      if (responseJSON.businesses[0] !== undefined) {
-        return yelpHoursLookup(responseJSON.businesses[0]);
-
+      if (businesses[0] !== undefined) return yelpHoursLookup(businesses[0])
       // Otherwise send back empty object
-      } else {
-        return {}; // responseJSON.businesses[0] === undefined
-      }
-    });
-};
+      else return {} // businesses[0] === undefined
+    })
+}
 
-module.exports = yelpSearch;
+module.exports = yelpSearch
