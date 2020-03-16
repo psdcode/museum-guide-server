@@ -20,7 +20,7 @@ app.use(helmet())
 
 // Wake Heroku server up into ready state
 app.get('/wakeup', function(req, res) {
-  res.status(200).send()
+  res.send()
 })
 
 // Handle search request to yelp api
@@ -30,7 +30,7 @@ app.get('/yelp-search', function(req, res) {
   yelpSearch(term, lat, lng)
     .then(function(result) {
       // Yelp api search successful
-      res.status(200).send(result)
+      res.send(result)
     })
     // Catch any errors in the yelp api request process
     .catch(function(err) {
